@@ -109,11 +109,27 @@ document.getElementById('uploadImage').addEventListener('change', function(e) {
 });
 
 // --- Bouton de téléchargement et animation de validation ---
+
 document.getElementById('downloadBtn').addEventListener('click', function() {
+  // Désactive le zoom avant l'export pour avoir la taille réelle
+  const currentZoom = canvas.getZoom();
+  canvas.setZoom(1);
+  canvas.setWidth(originalWidth);
+  canvas.setHeight(originalHeight);
+
+  // Force le rendu à la taille réelle
+  canvas.renderAll();
+
+  // Télécharge à la taille réelle
   const dataURL = canvas.toDataURL({
     format: 'png',
-    quality: 1
+    quality: 2,
+    multiplier: 1 // 1 = taille réelle, tu peux mettre 2 pour ultra HD
   });
+
+  // Restaure le zoom pour l'affichage utilisateur
+  resizeCanvas();
+
   const link = document.createElement('a');
   link.href = dataURL;
   link.download = 'badge_jy_serai.png';
