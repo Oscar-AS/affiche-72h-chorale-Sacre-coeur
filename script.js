@@ -13,6 +13,7 @@ function resizeCanvas() {
   canvas.setWidth(originalWidth * scaleRatio);
   canvas.setHeight(originalHeight * scaleRatio);
   canvas.setZoom(scaleRatio);
+  canvas.requestRenderAll();
 }
 
 window.addEventListener('resize', resizeCanvas);
@@ -153,8 +154,3 @@ function createFlowers() {
     container.appendChild(emoji);
   }
 }
-
-// --- Clique sur le label déclenche le file input ---
-document.querySelector('.upload-btn').addEventListener('click', function() {
-  document.getElementById('uploadImage').click();
-});
