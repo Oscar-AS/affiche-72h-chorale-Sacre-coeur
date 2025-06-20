@@ -1,3 +1,6 @@
+/* =========================
+   Styles généraux
+   ========================= */
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   text-align: center;
@@ -6,6 +9,7 @@ body {
   min-height: 100vh;
 }
 
+/* Titre principal */
 h1 {
   font-size: 2.2em;
   margin-bottom: 0.2em;
@@ -14,6 +18,7 @@ h1 {
   text-shadow: 1px 2px 8px #fff, 0 2px 2px #e57373;
 }
 
+/* Sous-titre */
 .subtitle {
   font-size: 1.2em;
   color: #444;
@@ -21,15 +26,18 @@ h1 {
   font-style: italic;
 }
 
+/* Icônes */
 .icon {
   font-size: 1.2em;
   vertical-align: middle;
 }
 
+/* Conteneur du bouton d'upload */
 .upload-container {
   margin-bottom: 15px;
 }
 
+/* Bouton d'upload stylisé */
 .upload-btn {
   display: inline-block;
   background: #fff8e1;
@@ -48,6 +56,9 @@ h1 {
   color: #fff8e1;
 }
 
+/* =========================
+   Conteneur du canvas (badge)
+   ========================= */
 #canvas-container {
   width: 100%;
   max-width: 500px;
@@ -63,6 +74,7 @@ h1 {
   justify-content: center;
 }
 
+/* Canvas Fabric.js */
 canvas {
   width: 100% !important;
   height: auto !important;
@@ -73,6 +85,9 @@ canvas {
   height: auto;
 }
 
+/* =========================
+   Bouton de téléchargement
+   ========================= */
 .download-btn {
   background: #b71c1c;
   color: #fff8e1;
@@ -91,6 +106,31 @@ canvas {
   color: #b71c1c;
 }
 
+/* =========================
+   Barre de progression
+   ========================= */
+#progress-bar-container {
+  display: none;
+  width: 100%;
+  max-width: 400px;
+  margin: 10px auto;
+}
+#progress-bar {
+  height: 18px;
+  width: 0;
+  background: #b71c1c;
+  border-radius: 9px;
+  transition: width 0.3s;
+}
+#progress-text {
+  margin-top: 2px;
+  font-size: 0.95em;
+  color: #b71c1c;
+}
+
+/* =========================
+   Message de validation et animation
+   ========================= */
 #validation-message {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -119,6 +159,7 @@ canvas {
   line-height: 1.5;
 }
 
+/* Conteneur des emojis/fleurs animés */
 .flowers {
   position: absolute;
   width: 100vw;
@@ -127,6 +168,7 @@ canvas {
   z-index: 10000;
 }
 
+/* Style des emojis/fleurs animés */
 .flower {
   position: absolute;
   font-size: 2.5em;
@@ -134,11 +176,11 @@ canvas {
   animation: flowerPop 1.8s forwards;
 }
 
+/* Animation d'apparition des emojis/fleurs */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-
 @keyframes flowerPop {
   0%   { opacity: 0; transform: scale(0.2) translateY(0);}
   30%  { opacity: 1; transform: scale(1.2) translateY(-40px);}
@@ -146,7 +188,9 @@ canvas {
   100% { opacity: 0; transform: scale(0.8) translateY(-200px);}
 }
 
-/* Responsive design pour mobile/tablette */
+/* =========================
+   Responsive design mobile/tablette
+   ========================= */
 @media (max-width: 700px) {
   body {
     padding: 0;

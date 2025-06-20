@@ -1,3 +1,4 @@
+// Initialisation du canvas Fabric.js et de l'affiche de fond
 const canvas = new fabric.Canvas('afficheCanvas');
 const imgURL = 'affiche.png';
 
@@ -7,6 +8,7 @@ let originalHeight = 4134;
 canvas.setWidth(originalWidth);
 canvas.setHeight(originalHeight);
 
+// Fonction pour rendre le canvas responsive (s'adapte à la taille de l'écran)
 function resizeCanvas() {
   const containerWidth = document.getElementById('canvas-container').clientWidth;
   const scaleRatio = containerWidth / originalWidth;
@@ -16,8 +18,10 @@ function resizeCanvas() {
   canvas.requestRenderAll();
 }
 
+// Redimensionne le canvas quand la fenêtre change de taille
 window.addEventListener('resize', resizeCanvas);
 
+// Charge l'image de fond (l'affiche) et l'ajoute en arrière-plan du canvas
 fabric.Image.fromURL(imgURL, function(img) {
   img.set({ selectable: false });
   canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
@@ -27,16 +31,16 @@ fabric.Image.fromURL(imgURL, function(img) {
   resizeCanvas();
 });
 
-// --- Paramètres du cercle (à ajuster selon ton affiche) ---
-const circleCenter = { x: 2054.75, y: 1579.65 }; // centre du cercle doré sur l'affiche
+// --- Paramètres du cercle pour la photo (à ajuster selon ton affiche) ---
+const circleCenter = { x: 2054.75, y: 1579.65 }; // centre du cercle doré
 const circleRadius = 836.95; // rayon du cercle doré
 
-// --- Upload et insertion de la photo dans le cercle ---
+// --- Gestion de l'upload et insertion de la photo dans le cercle ---
 document.getElementById('uploadImage').addEventListener('change', function(e) {
   const reader = new FileReader();
   reader.onload = function(event) {
     fabric.Image.fromURL(event.target.result, function(img) {
-      // Calcul du scale pour remplir le cercle
+      // Calcule le scale pour que la photo remplisse bien le cercle
       const scale = Math.max(
         (circleRadius * 2) / img.width,
         (circleRadius * 2) / img.height
@@ -61,7 +65,7 @@ document.getElementById('uploadImage').addEventListener('change', function(e) {
         }
       });
 
-      // ClipPath circulaire bien centré
+      // Masque la photo dans un cercle (clipPath)
       img.clipPath = new fabric.Circle({
         radius: circleRadius,
         left: circleCenter.x,
@@ -71,7 +75,7 @@ document.getElementById('uploadImage').addEventListener('change', function(e) {
         absolutePositioned: true
       });
 
-      // Supprime les anciennes images si besoin
+      // Supprime les anciennes photos si besoin (garde l'affiche de fond)
       canvas.getObjects('image').forEach(function(o) {
         if (o !== canvas.backgroundImage) canvas.remove(o);
       });
@@ -79,7 +83,7 @@ document.getElementById('uploadImage').addEventListener('change', function(e) {
       canvas.add(img);
       canvas.setActiveObject(img);
 
-      // Ajoute le texte "J'y serai" au-dessus de la photo
+      // Ajoute le texte "J'y serai" au-dessus de la photo (ici vide si tu ne veux rien)
       const jySeraiText = new fabric.Text("", {
         left: circleCenter.x,
         top: circleCenter.y + circleRadius + 120,
@@ -108,53 +112,85 @@ document.getElementById('uploadImage').addEventListener('change', function(e) {
   reader.readAsDataURL(e.target.files[0]);
 });
 
-// --- Bouton de téléchargement et animation de validation ---
-
+// --- Bouton de téléchargement, barre de progression et animation de validation ---
 document.getElementById('downloadBtn').addEventListener('click', function() {
-  // Désactive le zoom avant l'export pour avoir la taille réelle
-  const currentZoom = canvas.getZoom();
-  canvas.setZoom(1);
-  canvas.setWidth(originalWidth);
-  canvas.setHeight(originalHeight);
+  // Affiche la barre de progression
+  const progressBarContainer = document.getElementById('progress-bar-container');
+  const progressBar = document.getElementById('progress-bar');
+  const progressText = document.getElementById('progress-text');
+  progressBarContainer.style.display = 'block';
+  progressBar.style.width = '0';
+  progressText.textContent = 'Préparation du badge...';
 
-  // Force le rendu à la taille réelle
-  canvas.renderAll();
+  // Simulation de progression (pour l'expérience utilisateur)
+  let percent = 0;
+  const interval = setInterval(() => {
+    percent += Math.random() * 20 + 10; // avance aléatoire
+    if (percent >= 100) percent = 100;
+    progressBar.style.width = percent + '%';
+    progressText.textContent = Math.floor(percent) + '%';
 
-  // Télécharge à la taille réelle
-  const dataURL = canvas.toDataURL({
-    format: 'png',
-    quality: 1,
-    multiplier: 2 // 1 = taille réelle, tu peux mettre 2 pour ultra HD
-  });
+    if (percent >= 100) {
+      clearInterval(interval);
 
-  // Restaure le zoom pour l'affichage utilisateur
-  resizeCanvas();
+      // Prépare le canvas à la taille réelle pour l'export HD
+      canvas.setZoom(1);
+      canvas.setWidth(originalWidth);
+      canvas.setHeight(originalHeight);
+      canvas.renderAll();
 
-  const link = document.createElement('a');
-  link.href = dataURL;
-  link.download = 'badge_jy_serai.png';
-  link.click();
+      // Petit délai pour garantir que toutes les images sont bien affichées
+      setTimeout(() => {
+        // Génère l'image en haute définition (multiplier: 2)
+        const dataURL = canvas.toDataURL({
+          format: 'png',
+          quality: 1,
+          multiplier: 2
+        });
 
-  // Affiche le message de validation avec fleurs
-  showValidationMessage();
+        // Restaure le canvas à la taille responsive pour l'utilisateur
+        resizeCanvas();
+
+        // Déclenche le téléchargement
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = 'badge_jy_serai.png';
+        link.click();
+
+        // Barre à 100% et message
+        progressBar.style.width = '100%';
+        progressText.textContent = 'Téléchargement terminé !';
+
+        // Masque la barre après 1.5s
+        setTimeout(() => {
+          progressBarContainer.style.display = 'none';
+        }, 1500);
+
+        // Affiche le message de validation avec fleurs/emojis
+        showValidationMessage();
+      }, 200); // 200ms de délai pour garantir le rendu complet
+    }
+  }, 200);
 });
 
-// --- Animation fleurs et message ---
+// --- Animation fleurs/emojis et message de validation ---
 function showValidationMessage() {
   const msg = document.getElementById('validation-message');
   msg.classList.remove('hidden');
   createFlowers();
 
+  // Masque le message après 10 secondes (modifiable)
   setTimeout(() => {
     msg.classList.add('hidden');
     document.querySelector('.flowers').innerHTML = '';
   }, 10000);
 }
 
+// Génère des emojis (victoire, musique, fleurs) qui "pop" à l'écran
 function createFlowers() {
   const emojis = [
     '🌸','🌺','🌻','💐', // fleurs
-    '🏆','🎉','🙌',               // victoire
+    '🏆','🎉','🙌',      // victoire
     '🎶','🎵','🎤','🎷','🎺','🎸' // musique
   ];
   const container = document.querySelector('.flowers');
