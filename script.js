@@ -123,8 +123,8 @@ document.getElementById('downloadBtn').addEventListener('click', function() {
   // Télécharge à la taille réelle
   const dataURL = canvas.toDataURL({
     format: 'png',
-    quality: 2,
-    multiplier: 1 // 1 = taille réelle, tu peux mettre 2 pour ultra HD
+    quality: 1,
+    multiplier: 2 // 1 = taille réelle, tu peux mettre 2 pour ultra HD
   });
 
   // Restaure le zoom pour l'affichage utilisateur
