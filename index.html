@@ -2,82 +2,39 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Affiche personnalisée</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.6.0/fabric.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-      background-color: #f9f9f9;
-    }
-
-    canvas {
-      max-width: 100%;
-      height: auto;
-      border: 2px solid #ccc;
-      margin-top: 10px;
-    }
-
-    input[type="file"] {
-      margin: 20px 0;
-    }
-
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  </style>
+  <title>Badge J'y serai - Chorale Sacré-Cœur</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 </head>
 <body>
-
-  <h1>🎨 Crée ton affiche personnalisée</h1>
-  <p>Ajoute ta photo et ajuste-la librement sur l'affiche !</p>
-
-  <input type="file" id="upload" accept="image/*"><br>
-  <canvas id="canvas" width="800" height="1200"></canvas><br>
-  <button onclick="download()">📥 Télécharger</button>
-
-  <script>
-    const canvas = new fabric.Canvas('canvas');
-
-    // Charger l'image d'arrière-plan
-    fabric.Image.fromURL('affiche.jpg', function(bgImg) {
-      bgImg.scaleToWidth(canvas.width);
-      canvas.setBackgroundImage(bgImg, canvas.renderAll.bind(canvas));
-    });
-
-    // Quand l'utilisateur charge une photo
-    document.getElementById('upload').addEventListener('change', function(e) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        fabric.Image.fromURL(event.target.result, function(img) {
-          img.scaleToWidth(300); // taille initiale
-          img.set({
-            left: 250,
-            top: 500,
-            cornerStyle: 'circle',
-            cornerColor: 'blue',
-            transparentCorners: false
-          });
-          canvas.add(img);
-          canvas.setActiveObject(img);
-        });
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    });
-
-    // Télécharger l'image finale
-    function download() {
-      const link = document.createElement('a');
-      link.download = 'mon_affiche.png';
-      link.href = canvas.toDataURL({ format: 'png' });
-      link.click();
-    }
-  </script>
-
+  <h1>
+    <span class="icon">🎶</span>
+    72h Chorale Sacré-Cœur
+    <span class="icon">❤️</span>
+  </h1>
+  <h2 class="subtitle">Coordination Saint Mathieu</h2>
+  <div class="upload-container">
+    <label for="uploadImage" class="upload-btn">
+      <span class="icon">📷</span> Choisir ma photo
+    </label>
+    <input type="file" id="uploadImage" accept="image/*" style="display:none;">
+  </div>
+  <div id="canvas-container">
+    <canvas id="afficheCanvas"></canvas>
+  </div>
+  <button id="downloadBtn" class="download-btn">
+    <span class="icon">⬇️</span> Télécharger mon badge
+  </button>
+  <div id="validation-message" class="hidden">
+    <div class="flowers"></div>
+    <div class="message">
+      <span class="icon">🎵🎤🎉</span>
+      Merci pour votre participation volontaire !<br>
+      <span class="icon">🎉🌻🎵</span>
+      <strong>RDV les 11, 12 et 13 juillet 2025 !</strong>
+      <span class="icon">🌻🎶🎉</span>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
