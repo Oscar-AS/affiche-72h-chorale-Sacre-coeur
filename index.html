@@ -2,43 +2,130 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Badge J'y serai - Chorale Sacré-Cœur</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Générateur de Badge - Paroisse de Tampouy</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Créez et personnalisez votre badge pour la Journée des Parrains et Marraines de la Paroisse de Tampouy. Rendez-vous les 29, 30 et 31 mai !">
+  <meta property="og:title" content="Générateur de Badge - Paroisse de Tampouy">
+  <meta property="og:description" content="Générez votre badge personnalisé J'y serai pour la Journée des Parrains et Marraines et rejoignez-nous les 29, 30 et 31 mai.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts - Outfit & Pacifico -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Pacifico&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <!-- Fabric.js Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 </head>
 <body>
-  <h1>
-    <span class="icon">🎶</span>
-    72h Chorale Sacré-Cœur
-    <span class="icon">❤️</span>
-  </h1>
-  <h2 class="subtitle">Coordination Saint Mathieu</h2>
-  <div class="upload-container">
-    <label for="uploadImage" class="upload-btn">
-      <span class="icon">📷</span> Choisir ma photo
-    </label>
-    <input type="file" id="uploadImage" accept="image/*" style="display:none;">
-  </div>
-  <div id="canvas-container">
-    <canvas id="afficheCanvas"></canvas>
-  </div>
-  <button id="downloadBtn" class="download-btn">
-    <span class="icon">⬇️</span> Télécharger mon badge
-  </button>
-  <div id="progress-bar-container" style="display:none; width:100%; max-width:400px; margin:10px auto;">
-    <div id="progress-bar" style="height:18px; width:0; background:#b71c1c; border-radius:9px; transition:width 0.3s;"></div>
-    <div id="progress-text" style="margin-top:2px; font-size:0.95em; color:#b71c1c;"></div>
-  </div>
-  <div id="validation-message" class="hidden">
-    <div class="flowers"></div>
-    <div class="message">
-      <span class="icon">🎵🎤🎉</span>
-      Merci pour votre participation volontaire !<br>
-      <span class="icon">🎉🌻🎵</span>
-      <strong>RDV les 11, 12 et 13 juillet 2025 !</strong>
-      <span class="icon">🌻🎶🎉</span>
+  <!-- Floating decorative background elements -->
+  <div class="bg-glow orange-glow"></div>
+  <div class="bg-glow red-glow"></div>
+
+  <main class="app-container">
+    <header class="app-header">
+      <div class="badge-logo">⛪</div>
+      <h1>Journée des Parrains & Marraines</h1>
+      <p class="subtitle">Paroisse de Tampouy</p>
+    </header>
+
+    <section class="card glassmorphic">
+      <!-- Upload area shown initially -->
+      <div class="upload-section" id="uploadSection">
+        <div class="drop-zone" id="dropZone">
+          <div class="drop-zone-icon">📷</div>
+          <h3>Créez votre badge "J'y serai !"</h3>
+          <p>Glissez-déposez votre photo ici ou cliquez pour choisir</p>
+          <label for="uploadImage" class="btn btn-primary btn-upload">
+            Choisir ma photo
+          </label>
+          <input type="file" id="uploadImage" accept="image/*" style="display:none;">
+        </div>
+      </div>
+
+      <!-- Canvas container, hidden until image uploaded (shown dynamically in CSS or JS) -->
+      <div class="canvas-section hidden" id="canvasSection">
+        <div class="canvas-wrapper">
+          <div id="canvas-container">
+            <canvas id="afficheCanvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Interactive controls panel for adjustment -->
+        <div id="controls-panel" class="controls-panel">
+          <div class="controls-header">
+            <h4><span class="icon">✨</span> Ajustez votre photo</h4>
+            <p>Glissez la photo sur le badge pour la déplacer, ou utilisez le zoom :</p>
+          </div>
+          
+          <div class="control-row">
+            <div class="control-group">
+              <span class="control-label">🔍 Zoom</span>
+              <div class="slider-container">
+                <button type="button" id="zoomOutBtn" class="btn-step" title="Zoom arrière">−</button>
+                <input type="range" id="zoomSlider" min="0.05" max="3" step="0.01" value="1">
+                <button type="button" id="zoomInBtn" class="btn-step" title="Zoom avant">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-actions">
+            <label for="changePhotoInput" class="btn btn-secondary">
+              <span class="btn-icon">🔄</span> Changer de photo
+            </label>
+            <input type="file" id="changePhotoInput" accept="image/*" style="display:none;">
+          </div>
+        </div>
+
+        <!-- Download Action -->
+        <div class="action-section">
+          <button id="downloadBtn" class="btn btn-success btn-large">
+            <span class="btn-icon">⬇️</span> Télécharger mon badge HD
+          </button>
+          
+          <!-- Progress bar -->
+          <div id="progress-bar-container" class="progress-bar-container">
+            <div class="progress-bar-track">
+              <div id="progress-bar" class="progress-bar-fill"></div>
+            </div>
+            <div id="progress-text" class="progress-text">Préparation du badge...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Premium success modal overlay -->
+  <div id="validation-message" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-confetti-container" id="modalConfetti"></div>
+      
+      <div class="modal-badge-success">✓</div>
+      
+      <h2>Félicitations ! 🎉</h2>
+      <p class="modal-intro">Votre badge personnalisé "J'y serai" a été généré et téléchargé en Haute Définition !</p>
+      
+      <div class="modal-date-card">
+        <div class="calendar-icon">📅</div>
+        <div class="modal-date-title">RENDEZ-VOUS LES</div>
+        <div class="modal-date-value">29, 30 et 31 mai</div>
+        <div class="modal-date-year">2026</div>
+      </div>
+      
+      <p class="modal-footer-msg">Nous avons hâte de vivre ces moments fraternels exceptionnels avec vous. Partagez votre badge sur vos réseaux sociaux ! ❤️⛪</p>
+      
+      <button id="closeModalBtn" class="btn btn-primary">
+        Fermer & Retourner au site
+      </button>
     </div>
   </div>
-  <script src="script.js"></script>
+
+  <!-- Main JavaScript Logic -->
+  <script src="assets/js/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,767 @@
+/* ==========================================================================
+   DESIGN SYSTEM - VARIABLES & THEME
+   ========================================================================== */
+:root {
+  /* HSL Color Palette */
+  --primary-hue: 0;         /* Red tone */
+  --primary-sat: 73%;
+  --primary-light: 41%;
+  
+  --primary: hsl(var(--primary-hue), var(--primary-sat), var(--primary-light)); /* #b71c1c-like */
+  --primary-hover: hsl(var(--primary-hue), var(--primary-sat), calc(var(--primary-light) - 8%));
+  --primary-glow: hsla(var(--primary-hue), var(--primary-sat), var(--primary-light), 0.3);
+  
+  --accent-hue: 45;         /* Gold/Amber tone */
+  --accent-sat: 100%;
+  --accent-light: 62%;
+  --accent: hsl(var(--accent-hue), var(--accent-sat), var(--accent-light));
+  --accent-hover: hsl(var(--accent-hue), var(--accent-sat), calc(var(--accent-light) - 10%));
+  --accent-glow: hsla(var(--accent-hue), var(--accent-sat), var(--accent-light), 0.35);
+  
+  --success: #2e7d32;
+  --success-hover: #1b5e20;
+  --success-glow: rgba(46, 125, 50, 0.3);
+  
+  --bg-dark: #0f0c1b;
+  --bg-light: #f7f9fc;
+  
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a4a68;
+  --text-light: #ffffff;
+  
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --card-border: rgba(255, 255, 255, 0.6);
+  --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 
+                 0 1px 3px rgba(0, 0, 0, 0.02);
+                 
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 8px;
+  
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ==========================================================================
+   RESET & GLOBAL STYLES
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-primary);
+  background-color: #f0f2f6;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(320, 75%, 90%, 0.5) 0, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(20, 80%, 90%, 0.5) 0, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(50, 75%, 90%, 0.4) 0, transparent 40%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Glowing Background Effects */
+.bg-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: -1;
+  opacity: 0.4;
+  pointer-events: none;
+  animation: float 20s infinite alternate ease-in-out;
+}
+
+.orange-glow {
+  background: var(--accent);
+  top: -10%;
+  right: -10%;
+  animation-delay: -5s;
+}
+
+.red-glow {
+  background: var(--primary);
+  bottom: -10%;
+  left: -10%;
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, 80px) scale(1.1); }
+  100% { transform: translate(-30px, -50px) scale(0.9); }
+}
+
+/* ==========================================================================
+   LAYOUT & CONTAINER
+   ========================================================================== */
+.app-container {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 24px;
+  animation: fadeInDown 0.8s ease;
+}
+
+.badge-logo {
+  font-size: 3em;
+  margin-bottom: 12px;
+  display: inline-block;
+  animation: bounce 3s infinite ease-in-out;
+}
+
+h1 {
+  font-size: 2.5em;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+  text-shadow: 0 4px 10px rgba(183, 28, 28, 0.1);
+}
+
+.subtitle {
+  font-size: 1.15em;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   GLASSMORPHIC CARD
+   ========================================================================== */
+.card {
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--card-border);
+  transition: var(--transition);
+  animation: fadeInUp 0.8s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.glassmorphic {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ==========================================================================
+   DROP ZONE / UPLOAD SECTION
+   ========================================================================== */
+.upload-section {
+  width: 100%;
+}
+
+.drop-zone {
+  border: 3px dashed rgba(183, 28, 28, 0.25);
+  border-radius: var(--radius-md);
+  padding: 50px 30px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.4);
+  transition: var(--transition);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.drop-zone:hover, .drop-zone.dragover {
+  border-color: var(--primary);
+  background: rgba(183, 28, 28, 0.03);
+  transform: scale(1.01);
+}
+
+.drop-zone-icon {
+  font-size: 3.5em;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1));
+  transition: var(--transition);
+}
+
+.drop-zone:hover .drop-zone-icon {
+  transform: translateY(-8px) scale(1.08);
+}
+
+.drop-zone h3 {
+  font-size: 1.4em;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.drop-zone p {
+  color: var(--text-secondary);
+  font-size: 0.95em;
+  margin-bottom: 24px;
+  max-width: 280px;
+}
+
+/* ==========================================================================
+   CANVAS AREA
+   ========================================================================== */
+.canvas-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.canvas-section.hidden {
+  display: none;
+}
+
+.canvas-wrapper {
+  background: #ffffff;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08),
+              0 2px 5px rgba(0, 0, 0, 0.03);
+  margin-bottom: 30px;
+  border: 1px solid rgba(0,0,0,0.05);
+  max-width: 100%;
+}
+
+#canvas-container {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 3/4;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: #eaeaea;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* ==========================================================================
+   CONTROLS PANEL
+   ========================================================================== */
+.controls-panel {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
+}
+
+.controls-header {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.controls-header h4 {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.controls-header p {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.control-row {
+  margin-bottom: 16px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.control-label {
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 80px;
+  text-align: left;
+}
+
+.slider-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 6px 12px;
+  border-radius: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.btn-step {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: #f0f0f5;
+  color: var(--text-secondary);
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.btn-step:hover {
+  background: var(--primary);
+  color: var(--text-light);
+  transform: scale(1.05);
+}
+
+/* Styled HTML Sliders */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  flex-grow: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: #eaeaf0;
+  outline: none;
+  transition: var(--transition);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(183, 28, 28, 0.3);
+  transition: var(--transition);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background: var(--primary-hover);
+}
+
+.control-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+.btn {
+  font-family: inherit;
+  font-size: 0.95em;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.btn-icon {
+  font-size: 1.1em;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, #d32f2f 100%);
+  color: var(--text-light);
+  box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--primary-glow);
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: var(--text-secondary);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.btn-secondary:hover {
+  background: #f8f8fb;
+  color: var(--primary);
+  border-color: rgba(183, 28, 28, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--success) 0%, #388e3c 100%);
+  color: var(--text-light);
+  box-shadow: 0 4px 15px var(--success-glow);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, var(--success-hover) 0%, var(--success) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--success-glow);
+}
+
+.btn-large {
+  padding: 16px 36px;
+  font-size: 1.1em;
+  letter-spacing: 0.2px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-upload {
+  padding: 14px 32px;
+  font-size: 1.05em;
+}
+
+/* ==========================================================================
+   PROGRESS BAR
+   ========================================================================== */
+.progress-bar-container {
+  display: none;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 0 auto;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 8px;
+  background: #eef0f6;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  border: 1px solid rgba(0,0,0,0.02);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  border-radius: 4px;
+  transition: width 0.2s ease-out;
+}
+
+.progress-text {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   PREMIUM SUCCESS MODAL
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 12, 27, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.4s ease;
+  animation: fadeIn 0.3s forwards;
+}
+
+.modal-overlay.hidden {
+  display: none !important;
+}
+
+.modal-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-lg);
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25),
+              0 0 100px rgba(183, 28, 28, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: modalScaleUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.modal-confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.modal-badge-success {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.modal-card h2 {
+  font-size: 1.8em;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.modal-intro {
+  color: var(--text-secondary);
+  font-size: 0.95em;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Beautiful Date Panel in Modal */
+.modal-date-card {
+  background: linear-gradient(135deg, #fffcf3 0%, #fff8e1 100%);
+  border: 2px dashed rgba(255, 202, 40, 0.5);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.01),
+              0 4px 12px rgba(255, 202, 40, 0.1);
+}
+
+.calendar-icon {
+  font-size: 2.2em;
+  margin-bottom: 8px;
+  animation: wobble 2s infinite ease-in-out;
+}
+
+.modal-date-title {
+  font-size: 0.75em;
+  font-weight: 800;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.modal-date-value {
+  font-size: 1.8em;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+  margin: 4px 0;
+}
+
+.modal-date-year {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.modal-footer-msg {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.modal-card .btn {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* Confetti Particle Styling */
+.confetti-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #ff0;
+  opacity: 0;
+  border-radius: 50%;
+  animation: confettiFall 2.5s ease-out forwards;
+}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-6deg); }
+  75% { transform: rotate(6deg); }
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-20px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(350px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 600px) {
+  body {
+    padding: 12px;
+  }
+  
+  .card {
+    padding: 24px 16px;
+  }
+  
+  h1 {
+    font-size: 1.8em;
+  }
+  
+  .subtitle {
+    font-size: 1em;
+  }
+  
+  .drop-zone {
+    padding: 36px 16px;
+  }
+  
+  .drop-zone-icon {
+    font-size: 2.8em;
+  }
+  
+  .controls-panel {
+    padding: 16px;
+  }
+  
+  .control-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  .control-label {
+    min-width: unset;
+  }
+  
+  .slider-container {
+    width: 100%;
+  }
+  
+  .control-actions {
+    flex-direction: column;
+  }
+  
+  .control-actions .btn {
+    width: 100%;
+  }
+  
+  .modal-card {
+    padding: 30px 20px;
+  }
+  
+  .modal-date-value {
+    font-size: 1.5em;
+  }
+}
